@@ -1,0 +1,12 @@
+<ion-view title="Productor" ng-controller="ProductorCtrl">
+	<ion-content padding="true">
+		<button class="button button-block button-positive" ng-click="import();">
+		  Importar
+		</button>
+		<ul class="list">
+			<li class="item" ng-repeat="productor in productores">
+				{{productor.firstname + " " +productor.lastname }}
+			</li>
+		</ul>
+	</ion-content>
+</ion-view>

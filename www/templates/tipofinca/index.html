@@ -1,0 +1,12 @@
+<ion-view title="Tipo de Finca" ng-controller="TipoFincaCtrl">
+	<ion-content>
+		<button class="button button-block button-positive" ng-click="import();">
+		  Importar
+		</button>
+		<ul class="list">
+			<li class="item" ng-repeat="tipofinca in tipofincas">
+				{{ tipofinca.name }}
+			</li>
+		</ul>
+	</ion-content>
+</ion-view>
