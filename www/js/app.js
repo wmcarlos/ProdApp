@@ -189,6 +189,13 @@ angular.module('starter', ['ionic','ngCordova'])
 
   $scope.export = function(){
 
+    $http.get("http://www.inteligenciadenegocios.xyz/api/getimport.php?operation=delfincas").
+    success(function(data, status, header, config){
+        console.log(data);
+    }).error(function(data, status, headers, config){
+      console.log(data);
+    });
+
       var query = "SELECT * FROM finca";
       $cordovaSQLite.execute($scope.db, query, []).then(function(res) {
          for(var i = 0;i < res.rows.length; i++){
