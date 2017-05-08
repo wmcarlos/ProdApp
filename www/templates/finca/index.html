@@ -1,5 +1,24 @@
 <ion-view title="Finca" ng-controller="FincaCtrl">
 	<ion-content padding="true">
-		
+		<button class="button button-small button-balanced" ng-click='goToAddFinca();'>
+		  <i class="icon ion-plus-circled"></i>
+		  Nuevo Registro
+		</button>
+		<button class="button button-small button-positive" ng-click="export();">
+		  <i class="icon ion-arrow-up-c"></i>
+		  Exportar Registros
+		</button>
+		<div class="list list-inset">
+		  <label class="item item-input item-select" ng-repeat="finca in fincas">
+		    <div class="input-label">
+		      {{finca.name}}
+		    </div>
+		    <select id="accion">
+		      <option>Accion</option>
+		      <option value='edit-{{finca.id}}'>Editar</option>
+		      <option value='delete-{{finca.id}}'>Eliminar</option>
+		    </select>
+		  </label>
+		</div>
 	</ion-content>
 </ion-view>

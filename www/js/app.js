@@ -121,15 +121,12 @@ angular.module('starter', ['ionic','ngCordova'])
       success(function(data, status, header, config){
 
         for(var i = 0;i < data.length; i++){
-          //console.log(data[i].firstname + " " +data[i].lastname);
 
           var id = data[i].id;
           var name = data[i].name;
 
           $cordovaSQLite.execute($scope.db, "insert into tipofinca (id,name) values ("+id+",'"+name+"')");
         }
-
-        //console.log("Productores importados con exito");
 
         var query = "SELECT * FROM tipofinca";
         $scope.tipofincas = [];
@@ -164,7 +161,91 @@ angular.module('starter', ['ionic','ngCordova'])
 
 })
 
-.controller('FincaCtrl',function($scope){
+.controller('FincaCtrl',function($scope, $state, $cordovaSQLite, $http){
+
+  $scope.goToAddFinca = function(){
+      $state.go("add-finca");
+  }
+
+   $scope.goToEditFinca = function(){
+      $state.go("edit-finca");
+
+  }
+
+  $scope.cancel = function(){
+    $state.go("finca");
+  }
+
+  $scope.add = function(){
+    var name = document.getElementById("name").value;
+    var tipofinca = document.getElementById("idtipofinca").value;
+    var productor = document.getElementById("idproductor").value;
+    $cordovaSQLite.execute($scope.db, "INSERT INTO finca (name,idtipofinca,idproductor) values ('"+name+"',"+tipofinca+","+productor+")");
+   
+    alert("Registro Incluido con Exito");
+
+    $state.go("finca");
+  }
+
+  $scope.export = function(){
+
+      var query = "SELECT * FROM finca";
+      $cordovaSQLite.execute($scope.db, query, []).then(function(res) {
+         for(var i = 0;i < res.rows.length; i++){
+              $http.get("http://www.inteligenciadenegocios.xyz/api/getimport.php?operation=addfincas&name="+res.rows.item(i).name+"&idtipofinca="+res.rows.item(i).idtipofinca+"&idproductor="+res.rows.item(i).idproductor).
+              success(function(data, status, header, config){
+                  console.log(data);
+              }).error(function(data, status, headers, config){
+                console.log(data);
+              });
+         }
+         alert("Datos exportados con Exito");
+         $state.go("finca");
+      }, function (err) {
+          console.error(err);
+      });
+
+  }
+
+  var query1 = "SELECT * FROM tipofinca";
+    $scope.tipofincas = [];
+    $cordovaSQLite.execute($scope.db, query1, []).then(function(res) {
+       for(var i = 0;i < res.rows.length; i++){
+          $scope.tipofincas.push({
+            id : res.rows.item(i).id,
+            name : res.rows.item(i).name
+          });
+       }
+    }, function (err) {
+        console.error(err);
+    });
+
+    var query2 = "SELECT * FROM productor";
+    $scope.productores = [];
+    $cordovaSQLite.execute($scope.db, query2, []).then(function(res) {
+       for(var i = 0;i < res.rows.length; i++){
+          $scope.productores.push({
+            id : res.rows.item(i).id,
+            firstname : res.rows.item(i).firstname,
+            lastname : res.rows.item(i).lastname
+          });
+       }
+    }, function (err) {
+        console.error(err);
+    });
+
+    var query3 = "SELECT * FROM finca";
+    $scope.fincas = [];
+    $cordovaSQLite.execute($scope.db, query3, []).then(function(res) {
+       for(var i = 0;i < res.rows.length; i++){
+          $scope.fincas.push({
+            id : res.rows.item(i).id,
+            name : res.rows.item(i).name
+          });
+       }
+    }, function (err) {
+        console.error(err);
+    });
 
 
 })
@@ -191,7 +272,20 @@ angular.module('starter', ['ionic','ngCordova'])
 
   .state('finca',{
     url : '/finca',
+    cache: false,
     templateUrl : 'templates/finca/index.html',
+    controller : 'FincaCtrl'
+  })
+
+  .state('add-finca',{
+    url : '/add-finca',
+    templateUrl : 'templates/finca/add.html',
+    controller : 'FincaCtrl'
+  })
+
+  .state('edit-finca',{
+    url : '/edit-finca',
+    templateUrl : 'templates/finca/edit.html',
     controller : 'FincaCtrl'
   })
   

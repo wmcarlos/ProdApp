@@ -1,0 +1,31 @@
+<ion-view title="Agregar Finca" ng-controller="FincaCtrl">
+	<ion-content padding="true">
+		<div class="list">
+		  <label class="item item-input">
+		    <input type="text" id='name' placeholder="Nombre">
+		  </label>
+		  <label class="item item-input item-select">
+		  	<div class="input-label">
+		      Tipo de Finca
+		    </div>
+		    <select id='idtipofinca'>
+		    	<option ng-repeat="tipofinca in tipofincas" value="{{tipofinca.id}}">{{tipofinca.name}}</option>
+		    </select>
+		  </label>
+		  <label class="item item-input item-select">
+		  	<div class="input-label">
+		      Productor
+		    </div>
+		    <select id="idproductor">
+		    	<option ng-repeat="productor in productores" value="{{productor.id}}">{{productor.firstname + " "+ productor.lastname}}</option>
+		    </select>
+		  </label>
+		</div>
+		<button class="button button-balanced" ng-click="add();">
+			  Guardar
+		</button>
+		<button class="button button-assertive" ng-click="cancel();">
+			  Cancelar
+		</button>
+	</ion-content>
+</ion-view>
