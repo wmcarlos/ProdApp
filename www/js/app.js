@@ -17,8 +17,8 @@ angular.module('starter', ['ionic','ngCordova'])
       StatusBar.styleDefault();
     }
 
-    var db = $rootScope.db = $cordovaSQLite.openDB({ name: "my.db", location: "default" });
-    //var db = $rootScope.db = window.openDatabase("my.db","1","Productores","2000");
+    //var db = $rootScope.db = $cordovaSQLite.openDB({ name: "my.db", location: "default" });
+    var db = $rootScope.db = window.openDatabase("my.db","1","Productores","2000");
 
     $cordovaSQLite.execute(db, "CREATE TABLE productor (id INTEGER, firstname TEXT, lastname TEXT, isactive TEXT DEFAULT 'Y',PRIMARY KEY(id))");
     $cordovaSQLite.execute(db, "CREATE TABLE tipofinca (id INTEGER, name TEXT, isactive TEXT DEFAULT 'Y',PRIMARY KEY(id))");
